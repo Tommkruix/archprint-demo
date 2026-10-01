@@ -1,8 +1,17 @@
 import { Client } from '@modelcontextprotocol/sdk/client/index.js';
 import { StdioClientTransport } from '@modelcontextprotocol/sdk/client/stdio.js';
+import { existsSync, readFileSync } from 'node:fs';
+import { dirname, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+
+function archprintCli() {
+  let root = dirname(fileURLToPath(import.meta.resolve('archprint')));
+  while (!existsSync(join(root, 'package.json'))) root = dirname(root);
+  return join(root, JSON.parse(readFileSync(join(root, 'package.json'), 'utf8')).bin.archprint);
+}
 
 const client = new Client({ name: 'archprint-demo', version: '1.0.0' });
-await client.connect(new StdioClientTransport({ command: 'npx', args: ['archprint', 'mcp'] }));
+await client.connect(new StdioClientTransport({ command: process.execPath, args: [archprintCli(), 'mcp'] }));
 
 const { tools } = await client.listTools();
 console.log(`Connected to archprint over MCP. Tools: ${tools.map((tool) => tool.name).join(', ')}\n`);

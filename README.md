@@ -56,8 +56,8 @@ The app is a fixture for archprint to read, not a service to run. There is no da
    npm run mcp
    ```
 
-   `scripts/mcp-client.mjs` starts `archprint mcp`, lists its tools, and calls `archprint_scan`, the same
-   way Claude Code or Cursor does.
+   `scripts/mcp-client.mjs` starts `archprint mcp`, connects to it over stdio the way Claude Code or Cursor
+   does, lists its tools, and calls `archprint_scan`.
 
 To undo step 3, run `npx archprint eject`.
 
