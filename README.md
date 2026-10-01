@@ -57,7 +57,8 @@ The app is a fixture for archprint to read, not a service to run. There is no da
    ```
 
    `scripts/mcp-client.mjs` starts `archprint mcp`, connects to it over stdio the way Claude Code or Cursor
-   does, lists its tools, and calls `archprint_scan`.
+   does, lists its tools, and calls `archprint_scan`. Opening this repo in Claude Code picks up the same server
+   from `.mcp.json`.
 
 To undo step 3, run `npx archprint eject`.
 
