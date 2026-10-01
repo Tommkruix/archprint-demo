@@ -1,0 +1,6 @@
+import { NextResponse } from 'next/server';
+import { listPayments } from '@/lib/services/payments';
+
+export async function GET() {
+  return NextResponse.json(await listPayments());
+}

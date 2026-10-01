@@ -1,0 +1,3 @@
+export function UsageChart({ title }: { title: string }) {
+  return <section aria-label={title}>{title}</section>;
+}
