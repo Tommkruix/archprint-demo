@@ -1,0 +1,241 @@
+{
+  "stats": {
+    "without": {
+      "inputTokens": {
+        "median": 81386,
+        "min": 58042,
+        "max": 95990
+      },
+      "outputTokens": {
+        "median": 1136,
+        "min": 1057,
+        "max": 1407
+      },
+      "costUsd": {
+        "median": 0.0829294,
+        "min": 0.0781518,
+        "max": 0.1533636
+      },
+      "durationS": {
+        "median": 16.942,
+        "min": 14.795,
+        "max": 18.951
+      },
+      "turns": {
+        "median": 6,
+        "min": 5,
+        "max": 11
+      },
+      "toolCalls": {
+        "median": 5,
+        "min": 4,
+        "max": 10
+      }
+    },
+    "with": {
+      "inputTokens": {
+        "median": 52016,
+        "min": 52005,
+        "max": 52026
+      },
+      "outputTokens": {
+        "median": 583,
+        "min": 567,
+        "max": 603
+      },
+      "costUsd": {
+        "median": 0.0366456,
+        "min": 0.031962199999999996,
+        "max": 0.075955
+      },
+      "durationS": {
+        "median": 9.723,
+        "min": 9.021,
+        "max": 30.9
+      },
+      "turns": {
+        "median": 3,
+        "min": 3,
+        "max": 3
+      },
+      "toolCalls": {
+        "median": 2,
+        "min": 2,
+        "max": 2
+      }
+    }
+  },
+  "runs": [
+    {
+      "arm": "with",
+      "run": "with-1.jsonl",
+      "inputTokens": 52016,
+      "outputTokens": 603,
+      "costUsd": 0.075955,
+      "durationS": 9.544,
+      "turns": 3,
+      "toolCalls": 2,
+      "tools": [
+        "ToolSearch",
+        "mcp__archprint__archprint_scan"
+      ],
+      "answer": "Archprint scanned the repo's 70 TypeScript files and found 9 rules. Eight are firm (they pass archprint's confidence threshold) and one is only a suggestion.\n\n**Firm rules (no violations unless noted):**\n- **AP-001:** Request-entry files don't import the database client directly.\n- **AP-002:** Server-entry files don't import from the UI layer.\n- **No import cycles** between modules.\n- **Dependency hygiene:** packages are imported through their public entry point, not their internal files.\n- **No phantom dependencies:** code only imports packages listed in `package.json`.\n- **Entry purity:** no other code imports framework entry files.\n- **Console isolation:** library code doesn't use `console`.\n- **Env access:** only the config layer reads `process.env`. This is the one rule with a violation: `lib/db.ts` reads it directly (69 of 70 files follow the rule).\n\n**Suggestion (worth a look):**\n- **`lib !-> app`:** `lib` never imports `app`. All 22 cases follow it, but there were too few to pass the threshold.\n\nThe only thing to fix is `lib/db.ts`: move its environment variable reads into the config layer."
+    },
+    {
+      "arm": "with",
+      "run": "with-2.jsonl",
+      "inputTokens": 52026,
+      "outputTokens": 573,
+      "costUsd": 0.0366456,
+      "durationS": 9.021,
+      "turns": 3,
+      "toolCalls": 2,
+      "tools": [
+        "ToolSearch",
+        "mcp__archprint__archprint_scan"
+      ],
+      "answer": "I ran archprint's scan over the repo (70 files). It found 9 rules. Eight have no violations, and one is broken by a single file.\n\n**Confirmed (AUTO: enough evidence to pass the confidence check)**\n- **AP-001:** Request-entry files don't import the database client directly.\n- **AP-002:** Server-entry files don't import from the UI layer.\n- **cycles:** No modules import each other in a loop.\n- **dependency-hygiene:** Dependencies are imported through their public entry point, not their internal files.\n- **phantom-deps:** Every package imported is declared in `package.json`.\n- **entry-purity:** No other code imports framework entry files.\n- **console-isolation:** Library code doesn't use `console`.\n- **env-access:** `process.env` is read only in the config layer, with one exception: `lib/db.ts` reads it directly (69 of 70 files follow the rule).\n\n**Suggested (no violations, but too few files to confirm)**\n- **lib !-> app:** `lib` never imports from `app` (all 22 relevant files follow it).\n\nThe one thing to fix is `lib/db.ts`: move its environment read into the config layer."
+    },
+    {
+      "arm": "with",
+      "run": "with-3.jsonl",
+      "inputTokens": 52005,
+      "outputTokens": 598,
+      "costUsd": 0.031962199999999996,
+      "durationS": 10.012,
+      "turns": 3,
+      "toolCalls": 2,
+      "tools": [
+        "ToolSearch",
+        "mcp__archprint__archprint_scan"
+      ],
+      "answer": "Archprint scanned 70 files and found 9 rules the repo already follows. Eight are firm (they meet the tool's confidence bar) and one is weaker and needs a human to look at it.\n\n**Firm rules (no files break them unless noted):**\n- **AP-001:** Files that handle requests don't import the database client directly.\n- **AP-002:** Server entry files don't import from the UI layer.\n- **No import cycles:** Modules never import each other in a loop.\n- **Dependency hygiene:** Packages are imported through their main entry point, not their internal files.\n- **No undeclared packages:** Code only imports packages listed in `package.json`.\n- **Entry purity:** Framework entry files aren't imported by other code.\n- **No console in library code:** Library code never uses `console`.\n- **Env access:** `process.env` is only read in the config layer. One file breaks this: `lib/db.ts`.\n\n**Worth reviewing:**\n- **lib !-> app:** `lib` never imports `app`. No files break it, but it was seen in only 22 files, so it's short of the confidence bar.\n\nThe only fix the scan points to is `lib/db.ts`. Moving its `process.env` reads into the config layer would make the repo follow every rule."
+    },
+    {
+      "arm": "with",
+      "run": "with-4.jsonl",
+      "inputTokens": 52011,
+      "outputTokens": 583,
+      "costUsd": 0.036702200000000004,
+      "durationS": 30.9,
+      "turns": 3,
+      "toolCalls": 2,
+      "tools": [
+        "ToolSearch",
+        "mcp__archprint__archprint_scan"
+      ],
+      "answer": "I scanned the repo (70 files, one app) and found nine architecture rules it already follows.\n\n**Rules the scan is confident about (no files break them unless noted):**\n- **AP-001:** request-entry files don't import the database client directly.\n- **AP-002:** server-entry files don't import from the UI layer.\n- **cycles:** no modules import each other in a loop.\n- **dependency-hygiene:** packages are imported through their public entry, not their internal files.\n- **phantom-deps:** every imported package is listed in `package.json`.\n- **entry-purity:** framework entry files aren't imported by other code.\n- **console-isolation:** library code doesn't use `console`.\n- **env-access:** `process.env` is read only in the config layer. One file breaks this: `lib/db.ts`.\n\n**Worth a look (no files break it, but the scan had too few cases to be sure):**\n- **lib !-> app:** `lib` never imports from `app`. Only 22 files were checked, so confidence is 0.85.\n\nThe only fix to consider is moving the `process.env` read in `lib/db.ts` into the config layer."
+    },
+    {
+      "arm": "with",
+      "run": "with-5.jsonl",
+      "inputTokens": 52024,
+      "outputTokens": 567,
+      "costUsd": 0.036517400000000005,
+      "durationS": 9.723,
+      "turns": 3,
+      "toolCalls": 2,
+      "tools": [
+        "ToolSearch",
+        "mcp__archprint__archprint_scan"
+      ],
+      "answer": "The archprint scan found 9 rules across all 70 files. Eight are confident enough to enforce automatically. Only one file breaks any rule.\n\n**Followed everywhere, confident:**\n- **AP-001:** Request-entry files never import the database client directly.\n- **AP-002:** Server-entry files never import from the UI layer.\n- **No import cycles** between modules.\n- **Dependencies are imported through their public entry point**, never their internals.\n- **No undeclared packages:** every import is listed in `package.json`.\n- **Framework entry files are never imported** by other code.\n- **No `console` in library code.**\n\n**Followed with one exception:**\n- **`process.env` is read only in the config layer.** The one exception is `lib/db.ts`, so 69 of 70 files follow it.\n\n**Followed everywhere, but less certain:**\n- **`lib` never imports from `app`.** No file breaks it, but only 22 files touch it (confidence 0.85), so it's worth a human check before you enforce it.\n\nThe one thing to look at is `lib/db.ts`. Either move its env reads into config, or record it as an intended exception."
+    },
+    {
+      "arm": "without",
+      "run": "without-1.jsonl",
+      "inputTokens": 82186,
+      "outputTokens": 1338,
+      "costUsd": 0.1533636,
+      "durationS": 18.121,
+      "turns": 8,
+      "toolCalls": 7,
+      "tools": [
+        "Glob",
+        "Read",
+        "Read",
+        "Read",
+        "Grep",
+        "Read",
+        "Read"
+      ],
+      "answer": "This repo follows a strict three-layer structure (pages, then API routes, then services, then the database). Nothing enforces it. Every file just happens to comply today.\n\n**Layering (no file breaks these):**\n1. **Only the services touch the database.** Just `lib/services/*.ts` import `@/lib/db` and `@/lib/schema`.\n2. **API routes are thin and go through services.** All 40 route files import only `next/server` and their matching `@/lib/services/<entity>`. None query the database directly.\n3. **Components are pure UI.** Nothing in `components/` imports anything: no services, no database, no other components.\n4. **Pages only use components.** `app/page.tsx` and `app/dashboard/page.tsx` import from `@/components/*` and never from `lib/`.\n5. **Each service file serves one entity and doesn't call other services.**\n\n**Conventions:**\n- Each of the 20 entities has a matching set: `lib/services/<entity>.ts`, `app/api/<entity>/route.ts` and `app/api/<entity>/[id]/route.ts`.\n- Each service exports a `list<Entity>()` function and a `get<Entity>(id)` function. The get function returns `null` when nothing is found.\n- `[id]` routes return 404 `{ error: 'Not found' }` when the service returns `null` (see `app/api/users/[id]/route.ts:7`).\n- All imports within the repo use the `@/` path alias.\n- The stack is Drizzle ORM on node-postgres.\n\n**What's not enforced:** `eslint.config.mjs` only turns on `typescript-eslint` recommended, so no import-boundary rule backs any of the above. There's also no CLAUDE.md or architecture doc. If you want these rules kept, the next step would be a lint rule such as `no-restricted-imports` or `eslint-plugin-boundaries`."
+    },
+    {
+      "arm": "without",
+      "run": "without-2.jsonl",
+      "inputTokens": 81125,
+      "outputTokens": 1136,
+      "costUsd": 0.0819612,
+      "durationS": 15.569,
+      "turns": 5,
+      "toolCalls": 4,
+      "tools": [
+        "Glob",
+        "Read",
+        "Grep",
+        "Grep"
+      ],
+      "answer": "The repo follows these rules consistently. I worked them out from the imports, though. Nothing in the repo enforces them.\n\n1. **Layering: routes → services → db.** All 40 handlers in `app/api/**/route.ts` import only `NextResponse` and the matching function from `@/lib/services/<entity>`. No route touches `db` or `schema` directly.\n2. **Services own data access.** Each file in `lib/services/*.ts` imports only `drizzle-orm`, `@/lib/db`, and its own table from `@/lib/schema`. They never import each other, routes or components.\n3. **One service per entity, with a fixed naming scheme.** `listX` serves the collection route and `getX` serves the `[id]` route, for 20 entities.\n4. **Shared infrastructure stays separate.** `lib/db.ts` sets up the Drizzle client and `lib/schema.ts` holds all the tables. Neither imports any app code.\n5. **Components are leaves.** The files in `components/` import nothing: no services, no db, no fetch. Only pages import them (`app/page.tsx`, `app/dashboard/page.tsx`).\n6. **Pages don't call services.** Pages only put components together. Data access goes through the API routes.\n7. **Imports use the `@/` path alias.** I found no relative cross-folder imports.\n\n**None of this is enforced.** `eslint.config.mjs` uses only `typescript-eslint` recommended, with no import-boundary rules. There's also no CLAUDE.md, architecture doc or git history to confirm these rules were intended. If you want to lock them in, adding boundary rules (for example `no-restricted-imports` or `eslint-plugin-boundaries`) would be the next step."
+    },
+    {
+      "arm": "without",
+      "run": "without-3.jsonl",
+      "inputTokens": 58042,
+      "outputTokens": 1112,
+      "costUsd": 0.0781518,
+      "durationS": 14.795,
+      "turns": 6,
+      "toolCalls": 5,
+      "tools": [
+        "Glob",
+        "Read",
+        "Read",
+        "Read",
+        "Grep"
+      ],
+      "answer": "This is a layered Next.js and Drizzle app. Every rule below is followed by convention only. Nothing enforces any of them: `eslint.config.mjs` uses just the `typescript-eslint` recommended preset, with no import or boundary rules.\n\n**Rules the code follows today:**\n\n1. **Route handlers call only services.** Each `app/api/**/route.ts` imports `NextResponse` and one function from its matching `lib/services/<resource>`, and does nothing else. No route imports `db` or `schema` directly.\n2. **Only services touch the database.** Just `lib/services/*.ts` import `@/lib/db` and `@/lib/schema`, plus `drizzle-orm`'s `eq`.\n3. **One service per resource, with the same shape.** Each service exports `listX()` and `getX(id)`, and `getX` returns `null` when nothing is found (`lib/services/users.ts:9`). The routes mirror this: `route.ts` handles the list and `[id]/route.ts` handles a single item.\n4. **Components import nothing from the app.** None of the files in `components/` import from `lib/` or `app/`. They are pure UI.\n5. **Pages put components together.** `app/page.tsx` and `app/dashboard/page.tsx` import only from `@/components`, never services or the database.\n6. **The schema and the database connection live in one place each.** All tables are in `lib/schema.ts` and the client is in `lib/db.ts`.\n7. **Imports use the `@/` alias,** never relative paths.\n\nSince none of this is enforced, the easiest way to lock it in would be to add `no-restricted-imports` rules to the ESLint config, for example to block `@/lib/db` outside `lib/services`."
+    },
+    {
+      "arm": "without",
+      "run": "without-4.jsonl",
+      "inputTokens": 95990,
+      "outputTokens": 1407,
+      "costUsd": 0.0849408,
+      "durationS": 18.951,
+      "turns": 11,
+      "toolCalls": 10,
+      "tools": [
+        "Glob",
+        "Read",
+        "Read",
+        "Read",
+        "Read",
+        "Grep",
+        "Grep",
+        "Read",
+        "Grep",
+        "Grep"
+      ],
+      "answer": "None of these rules are written down or enforced. The ESLint config only uses `typescript-eslint` recommended. Still, the code follows them in every file:\n\n1. **API routes only call services.** All 40 `app/api/**/route.ts` files import from `@/lib/services/*` and nothing else besides `next/server`. No route uses `db`, `schema` or `drizzle-orm` directly.\n2. **Only services touch the database.** Imports of `@/lib/db`, `@/lib/schema` and `drizzle-orm` appear only in `lib/services/`.\n3. **One service per resource.** Each of the 20 resources has one service file, which imports only its own table. Services never import each other.\n4. **Matching route shape.** Each resource has `route.ts` for listing (`GET` calls `listX`) and `[id]/route.ts` for a single item (`getX`). They return `NextResponse.json`.\n5. **Components have no imports at all.** The 5 files in `components/` contain only markup and props, with no data access. Pages put them together, as `app/dashboard/page.tsx` does.\n6. **Imports use the `@/` path alias** instead of relative paths.\n\nIf you want these rules to stay true, adding `no-restricted-imports` rules to `eslint.config.mjs` would enforce them."
+    },
+    {
+      "arm": "without",
+      "run": "without-5.jsonl",
+      "inputTokens": 81386,
+      "outputTokens": 1057,
+      "costUsd": 0.0829294,
+      "durationS": 16.942,
+      "turns": 6,
+      "toolCalls": 5,
+      "tools": [
+        "Glob",
+        "Read",
+        "Grep",
+        "Read",
+        "Read"
+      ],
+      "answer": "The repo has a clean three-layer structure (UI, API routes, services over the database), and every file I checked follows it:\n\n1. **Only the service layer talks to the database.** Only files in `lib/services/*` import `db` (from `lib/db`) and the table definitions (from `lib/schema`). Nothing in `app/` or `components/` imports them.\n2. **API routes are thin and go through services.** Each `app/api/<resource>/route.ts` and `[id]/route.ts` imports only `NextResponse` and its own service. It calls one function, `list<Resource>()` or `get<Resource>(id)`, and returns 404 when nothing is found (`app/api/users/[id]/route.ts:7`).\n3. **There is one service per resource, all with the same shape.** Each service has a `list` function and a `get` function that returns `null` when there's no match. Services never import each other.\n4. **Components don't touch data.** Files in `components/*` have no imports at all, so they never reach into `lib/` or the API.\n5. **Pages only put components together.** `app/page.tsx` and `app/dashboard/page.tsx` import only from `@/components/*`, not from services or the database.\n6. **Imports use the `@/` path alias** rather than relative paths.\n\n**Caveat:** nothing enforces these rules. `eslint.config.mjs` only uses the default `typescript-eslint` recommended rules, with no import-boundary rules. The structure holds today only because people have stuck to it. If you want to lock it in, I can add ESLint rules that block imports across these layers."
+    }
+  ]
+}
