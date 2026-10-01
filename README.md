@@ -57,8 +57,16 @@ The app is a fixture for archprint to read, not a service to run. There is no da
    ```
 
    `scripts/mcp-client.mjs` starts `archprint mcp`, connects to it over stdio the way Claude Code or Cursor
-   does, lists its tools, and calls `archprint_scan`. Opening this repo in Claude Code picks up the same server
-   from `.mcp.json`.
+   does, lists its tools, and calls `archprint_scan`.
+
+6. **Or just ask your agent.** Open this folder in Claude Code (`.mcp.json`) or Cursor (`.cursor/mcp.json`)
+   and the archprint server is already configured. Ask in plain words, for example:
+
+   > What architecture rules does this repo already follow?
+
+   The agent calls archprint's read-only tools on its own and answers with the evidence. `.claude/settings.json`
+   pre-approves those read-only tools for Claude Code, and Claude Code shows that when you first trust the
+   folder.
 
 To undo step 3, run `npx archprint eject`.
 

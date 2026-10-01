@@ -1,0 +1,5 @@
+{
+  "mcpServers": {
+    "archprint": { "command": "npx", "args": ["-y", "archprint", "mcp"] }
+  }
+}

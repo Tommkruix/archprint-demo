@@ -1,0 +1,6 @@
+{
+  "enabledMcpjsonServers": ["archprint"],
+  "permissions": {
+    "allow": ["mcp__archprint"]
+  }
+}
