@@ -19,11 +19,12 @@ console.log(`Connected to archprint over MCP. Tools: ${tools.map((tool) => tool.
 console.log('Calling archprint_scan on this repo...\n');
 const result = await client.callTool({ name: 'archprint_scan', arguments: { path: '.' } });
 const [app] = JSON.parse(result.content[0].text).apps;
-console.log(`  ${'gate'.padEnd(8)}${'rule'.padEnd(22)}${'floor'.padEnd(6)}evidence`);
 for (const rule of app.rules) {
   const confidence = `${Math.round(rule.confidenceFloor * 100)}%`;
-  const evidence = `${rule.observations - rule.violatingFiles}/${rule.observations} files conform`;
-  console.log(`  ${rule.status.padEnd(8)}${rule.label.padEnd(22)}${confidence.padEnd(6)}${evidence}`);
+  const evidence = `${rule.observations - rule.violatingFiles}/${rule.observations} files`;
+  const id = rule.family === 'forbidden-imports' ? `${rule.label}: ` : '';
+  const exceptions = rule.exceptions.length > 0 ? ` (except ${rule.exceptions.join(', ')})` : '';
+  console.log(`  ${rule.status.padEnd(8)}${confidence.padEnd(5)}${evidence.padEnd(13)}${id}${rule.statement}${exceptions}`);
 }
 
 await client.close();
