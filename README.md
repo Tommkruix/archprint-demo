@@ -68,6 +68,11 @@ The app is a fixture for archprint to read, not a service to run. There is no da
    pre-approves those read-only tools for Claude Code, and Claude Code shows that when you first trust the
    folder.
 
+   If Cursor or another desktop app says the server failed to start, it cannot see `node` on its `PATH` (common
+   with nvm or Homebrew when the app is opened from the Dock). See
+   [the fix in archprint's docs](https://github.com/Tommkruix/archprint#use-with-ai-agents-mcp), or open the
+   editor from a terminal.
+
 To undo step 3, run `npx archprint eject`.
 
 ## Locally
