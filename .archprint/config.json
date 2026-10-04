@@ -1,0 +1,93 @@
+{
+  "archprintVersion": "0.9.0",
+  "app": ".",
+  "stack": [
+    "next",
+    "react"
+  ],
+  "rulesDir": ".archprint",
+  "enforced": [
+    {
+      "title": "Console isolation",
+      "rate": 22.5,
+      "enforcer": "eslint"
+    },
+    {
+      "title": "Forbidden imports (DB client / UI in server entries)",
+      "rate": 4.6,
+      "enforcer": "eslint"
+    }
+  ],
+  "reportOnly": [
+    {
+      "title": "Circular dependencies",
+      "rate": 72.9,
+      "enforcer": ""
+    }
+  ],
+  "review": [
+    {
+      "title": "Dependency hygiene (no build/impl internals)",
+      "rate": 61.1,
+      "enforcer": "needs dependency-cruiser"
+    },
+    {
+      "title": "Dependency declaration (no phantom deps)",
+      "rate": 56.1,
+      "enforcer": "needs dependency-cruiser"
+    },
+    {
+      "title": "Layer boundaries",
+      "rate": 25.4,
+      "enforcer": "needs dependency-cruiser"
+    },
+    {
+      "title": "Entry purity",
+      "rate": 11,
+      "enforcer": "needs dependency-cruiser"
+    },
+    {
+      "title": "Env access",
+      "rate": null,
+      "enforcer": "eslint"
+    }
+  ],
+  "adopt": [
+    {
+      "title": "UI / data separation",
+      "rate": 51.4,
+      "enforcer": "needs dependency-cruiser"
+    },
+    {
+      "title": "Server / client boundary",
+      "rate": 34,
+      "enforcer": "needs dependency-cruiser"
+    },
+    {
+      "title": "Test isolation",
+      "rate": 33.4,
+      "enforcer": "eslint"
+    },
+    {
+      "title": "Import style (aliases over deep relatives)",
+      "rate": 21,
+      "enforcer": "eslint"
+    }
+  ],
+  "evidence": {
+    "apps": 61690,
+    "asOf": "2026-09-01"
+  },
+  "managed": {
+    "files": [
+      ".archprint/eslint.mjs",
+      ".archprint/rules.json"
+    ],
+    "readme": true,
+    "readmeCreated": false,
+    "prettierignore": true,
+    "prettierignoreCreated": true,
+    "npmignore": false,
+    "npmignoreCreated": false
+  }
+}

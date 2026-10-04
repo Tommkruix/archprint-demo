@@ -87,3 +87,35 @@ npm run scan
 ## License
 
 MIT
+
+<!-- archprint:start -->
+## Architecture rules (managed by archprint, do not edit between the markers)
+
+### Enforcing now
+These rules match what your code already follows and are wired into your linter.
+
+- Console isolation (eslint) (22.5% of comparable repos)
+- Forbidden imports (DB client / UI in server entries) (eslint) (4.6% of comparable repos)
+
+### Report only
+Your code already follows these, but archprint does not write a rule for them yet, so nothing enforces them.
+
+- Circular dependencies (72.9% of comparable repos)
+
+### Held for review
+Close, but the evidence is thin or the inference could be wrong. Review with `archprint scan` before enforcing.
+
+- Dependency hygiene (no build/impl internals) (needs dependency-cruiser) (61.1% of comparable repos)
+- Dependency declaration (no phantom deps) (needs dependency-cruiser) (56.1% of comparable repos)
+- Layer boundaries (needs dependency-cruiser) (25.4% of comparable repos)
+- Entry purity (needs dependency-cruiser) (11% of comparable repos)
+- Env access (eslint)
+
+### Worth adopting
+Common in comparable repos, not yet in your code.
+
+- UI / data separation (needs dependency-cruiser) (51.4% of comparable repos)
+- Server / client boundary (needs dependency-cruiser) (34% of comparable repos)
+- Test isolation (eslint) (33.4% of comparable repos)
+- Import style (aliases over deep relatives) (eslint) (21% of comparable repos)
+<!-- archprint:end -->
