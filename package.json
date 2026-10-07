@@ -18,7 +18,7 @@
     "@modelcontextprotocol/sdk": "^1.31.0",
     "@types/node": "^26.6.3",
     "@types/react": "^19.3.0",
-    "archprint": "^0.12.2",
+    "archprint": "^0.12.3",
     "eslint": "^10.11.0",
     "typescript": "~6.0.3",
     "typescript-eslint": "^8.71.0"
